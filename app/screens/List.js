@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 
 import Loading from '../components/Loading';
-import { getUsers } from '../services/users';
+import ListItem from '../components/ListItem';
+import AnnouncementItem from '../components/AnnouncementItem';
+import { getUsers } from '../services/search';
+import { getImageSource } from '../utils/images';
 import { nav_actions } from '../redux/actions/types';
-import ListAnnouncements from '../components/ListAnnouncements';
 
 class List extends Component {
     state = {
@@ -11,19 +13,19 @@ class List extends Component {
     }
 
     componentWillMount() {
-        getUsers()
-        .then((data) => {
-            this.setState({
-                isLoading: false,
-                data
+        getUsers(this.props.navigation.state.params.filter)
+            .then((data) => {
+                this.setState({
+                    isLoading: false,
+                    data
+                });
             });
-        });
     }
 
-    onSelect = (item) => {
+    onSelect = (id) => {
         const { dispatch } = this.props.navigation;
 
-        dispatch({ type: nav_actions.PROFILE, id: item.inscID })
+        dispatch({ type: nav_actions.PROFILE, id })
     }
 
     render() {
@@ -34,10 +36,20 @@ class List extends Component {
         }
 
         return (
-            <ListAnnouncements
-                data={data}
-                onSelect={this.onSelect}
-            />                
+            <ListItem>
+            {
+                data.map((item, index) => (
+                    <AnnouncementItem
+                        key={index}
+                        avatarImage={getImageSource(item.picture_rep, item.picture)}
+                        pseudo={item.pseudo}
+                        title={item.title}
+                        id={item.inscID}
+                        onSelect={this.onSelect}
+                    />
+                ))
+            }
+            </ListItem>
         );
     }
 }

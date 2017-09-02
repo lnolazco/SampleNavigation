@@ -1,10 +1,12 @@
-import React, { Component } from "react";
-import { Text, View } from "react-native";
-import { Card, Button } from 'react-native-elements'
+import React, { Component } from 'react';
+import { Image, Text, ScrollView, StyleSheet } from 'react-native';
 
 import Loading from '../components/Loading';
-import { getUserProfile } from '../services/users';
+import Button from '../components/Button';
+import ImageSlider from '../components/ImageSlider';
+import { getUserProfile } from '../services/search';
 import { nav_actions } from '../redux/actions/types';
+import { getProfileImageSource, getGalleryImageSource } from '../utils/images';
 
 class Profile extends Component {
     state = {
@@ -21,11 +23,24 @@ class Profile extends Component {
         }));
     }
 
-    getImage(picture, picture_rep) {
-        const imageUrl = 'https://71ea.https.cdn.softlayer.net/8071EA/cdn/menu_thumbs/';
-        const noImage = 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg';
+    onActionChat = () => {
+        const { dispatch } = this.props.navigation;
+        const { user } = this.state;
+        dispatch({ type: nav_actions.CHAT, user })
+    }
 
-        return !picture ? noImage : `${imageUrl}${picture_rep}/${picture}`;
+    getImages(user) {
+        const images = [];
+        images.push(getProfileImageSource(user.picture_rep, user.picture));
+        if (user.gallery) {
+            const keys = Object.keys(user.gallery);
+            keys.forEach(key => {
+                const { picture_rep, picture } = user.gallery[key];
+                images.push(getGalleryImageSource(picture_rep, picture));
+            });
+        }
+        console.log(images);
+        return images;
     }
 
     render() {
@@ -33,27 +48,33 @@ class Profile extends Component {
         if (isLoading) {
             return <Loading />;
         }
-        const { dispatch } = this.props.navigation;
 
         return (
-            <View>
-                <Card
-                    title={ user.title }
-                    image={{ uri: this.getImage(user.picture, user.picture_rep)}}>
-                    <Text style={{marginBottom: 10}}>
-                        {user.desc}
-                    </Text>
-                    <Button
-                        icon={{name: 'code'}}
-                        backgroundColor='#03A9F4'
-                        buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-                        title='Chat'
-                        onPress={() => dispatch({ type: nav_actions.CHAT, user })}
-                    />
-                </Card>
-            </View>
+            <ScrollView>
+                <ImageSlider images={this.getImages(user)} />
+                <Description text={user.desc} />
+                <Button text="Chat" onPress={this.onActionChat} />
+            </ScrollView>
         );
     }
 }
+
+const Description = ({ text }) => {
+    return <Text stye={styles.description}>{text}</Text>;
+}
+
+const styles = StyleSheet.create({
+    description: {
+        marginBottom: 10,
+    }
+});
+
+                    // <Button
+                    //     icon={{name: 'code'}}
+                    //     backgroundColor='#03A9F4'
+                    //     buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+                    //     title='Chat'
+                    //     onPress={this.onActionChat}
+                    // />
 
 export default Profile;

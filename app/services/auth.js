@@ -3,7 +3,7 @@ import { AsyncStorage } from 'react-native';
 import { API_URL, USER_KEY } from '../config';
 import { request, requestJson } from './request';
 
-export async function onSignIn(user_email, user_password) {
+export async function signIn(user_email, user_password) {
     const url = `${API_URL}/login`;
     const body = { user_email, user_password };
 
@@ -11,7 +11,7 @@ export async function onSignIn(user_email, user_password) {
     await AsyncStorage.setItem(USER_KEY, response.token);
 }
 
-export async function onSignOut() {
+export async function signOut() {
     const url = `${API_URL}/private/offliner?logout=1`;
     let data = await request(url);
     AsyncStorage.removeItem(USER_KEY);

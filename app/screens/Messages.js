@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 
 import Loading from '../components/Loading';
+import ListItem from '../components/ListItem';
+import AnnouncementItem from '../components/AnnouncementItem';
 import { getConversations } from '../services/messenger';
+import { getImageSource } from '../utils/images';
 import { nav_actions } from '../redux/actions/types';
-import ListConversations from '../components/ListConversations';
 
 class Messages extends Component {
     state = {
@@ -23,7 +25,7 @@ class Messages extends Component {
     onSelect = (item) => {
         const { dispatch } = this.props.navigation;
         console.log('Selected ', item);
-        dispatch({ type: nav_actions.CHAT, id: item.userid, inscID: item.destID })
+        dispatch({ type: nav_actions.CHAT, data: item });
     }
 
     render() {
@@ -34,10 +36,20 @@ class Messages extends Component {
         }
 
         return (
-            <ListConversations
-                data={data}
-                onSelect={this.onSelect}
-            />                
+            <ListItem>
+            {
+                data.map((item, index) => (
+                    <AnnouncementItem
+                        key={index}
+                        avatarImage={getImageSource(item.picture_rep, item.picture)}
+                        pseudo={item.pseudo}
+                        title={item.msg}
+                        id={item}
+                        onSelect={this.onSelect}
+                    />
+                ))
+            }
+            </ListItem>
         );
     }
 }

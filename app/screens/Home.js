@@ -21,7 +21,7 @@ const Home = props => {
     return (
         <View style={styles.container}>
             <Text style={styles.welcome}>
-                Welcome to React Native Navigation Sample!
+                Home page
             </Text>
         </View>
     );

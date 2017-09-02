@@ -12,8 +12,17 @@ git clone
 cd project
 npm i
 ```
-You will need to update the projects, follow the instructions of the sections below.
+You will need to update the projects, follow the instructions of the sections **Dependencies**.
 
+## How to run
+IOs:
+```bash
+react-native run-ios
+```
+Android:
+```bash
+react-native run-android
+```
 ## Dependencies
 
 ### Redux
@@ -22,9 +31,9 @@ You will need to update the projects, follow the instructions of the sections be
 Used to get the side menu and the navigation between the pages. Redux implmented.
 
 ### React Native Vector Icons
-
-### React Native Elements
-Ideally I would like to get rid of it
+IOS
+it needs to open the project xcode and copy the fonts library and add the reference.
+Android... I don´t remember.
 
 ### Progress bar
 https://github.com/oblador/react-native-progress#installation
@@ -33,7 +42,7 @@ https://github.com/oblador/react-native-progress#installation
 https://github.com/FaridSafi/react-native-gifted-chat
 
 ### Realtime
-For IOS:
+#### For IOS:
 I used this repo
 https://github.com/realtime-framework/RealtimeMessaging-ReactNativeIOSExample
 but the instructions are not so correct... so, this is what I did:
@@ -50,11 +59,16 @@ Then I added to services the file 'RCTRealtimeMessaging.js' from ./node_modules/
 more info:
 https://github.com/realtime-framework/RCTRealtimeMessagingIOS
 
-android pending
+#### For android pending
 
 https://github.com/realtime-framework/RealtimeMessaging-ReactNativeAndroidExample
 https://github.com/realtime-framework/RCTRealtimeMessagingAndroid
 
 ## Authentication
 Based on this repo:
-// https://github.com/spencercarli/react-navigation-auth-flow/tree/finished-code
+https://github.com/spencercarli/react-navigation-auth-flow/tree/finished-code
+
+## Next steps
+- Add unit tests jest + enzyme
+- Add functional tests chai jazzmine or use nightwatch
+- Use style components

@@ -1,33 +1,28 @@
-//  Created by Joao Caixinha on 02/04/15.
-//  Copyright (c) 2015 Realtime. All rights reserved.
-//
+//  Updated by Luis Noazco on 18/08/17.
 
 /**
  * @providesModule RCTRealtimeMessagingIOS
  * @flow
  */
 
-'use strict';
-
 import React, { Component } from 'react';
 import { NativeModules } from 'react-native';
-var RCTDeviceEventEmitter = require('RCTDeviceEventEmitter');
-var ortcClient = NativeModules.RealtimeMessaging;
-var RTEvents = {};
-var instances = 0;
+import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter';
 
-class RCTRealtimeMessagingIOS extends React.Component {
+const ortcClient = NativeModules.RealtimeMessaging;
+const RTEvents = {};
+let instances = 0;
+
+class RCTRealtimeMessagingIOS {
 	id;
 	
-	constructor(props) {
-    super(props);
+	constructor() {
 		this.id = ""+instances++;
 	}
 
 	RTConnect(config){
 		ortcClient.connect(config, this.id);
 	}
-	
 
 	RTDisconnect(){
 		ortcClient.disconnect(this.id);

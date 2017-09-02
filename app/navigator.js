@@ -1,14 +1,15 @@
-import React from "react";
-import { Button, AppRegistry } from "react-native";
-import { Icon } from 'react-native-elements'
+import React from 'react';
+import { Button, AppRegistry } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import { addNavigationHelpers, StackNavigator, DrawerNavigator } from "react-navigation";
+import { addNavigationHelpers, StackNavigator, DrawerNavigator } from 'react-navigation';
 import { connect } from 'react-redux';
 
 import SignIn from "./screens/SignIn";
-import SignUp from "./screens/SignUp";
+import ForgotPassword from "./screens/ForgotPassword";
 import SignOut from "./screens/SignOut";
 import Home from "./screens/Home";
+import Search from "./screens/Search";
 import List from "./screens/List";
 import Chat from "./screens/Chat";
 import Messages from "./screens/Messages";
@@ -21,8 +22,8 @@ export const SignedOut = StackNavigator({
             header: null
         }
     },
-    SignUp: {
-        screen: SignUp,
+    ForgotPassword: {
+        screen: ForgotPassword,
         navigationOptions: {
             title: 'Sign Up'
         }
@@ -32,6 +33,7 @@ export const SignedOut = StackNavigator({
 const IconMenu = ({ navigation }) => (
     <Icon
         name="menu"
+        size={30}
         onPress={() => navigation.navigate('DrawerOpen')} />
 );
 
@@ -42,40 +44,46 @@ const SignedIn = DrawerNavigator({
                 screen: Home,
                 navigationOptions: (props) => {
                     return {
-                        title: 'Home title',
+                        title: 'Home',
                         headerLeft: <IconMenu {...props} />
                     }
                 }
             }
         }),
-        navigationOptions: { drawerLabel: 'Home Menu' },
+        navigationOptions: { drawerLabel: 'Home' },
     },
     List: {
         screen: StackNavigator({
-            List: {
-                screen: List,
+            Search: {
+                screen: Search,
                 navigationOptions: (props) => {
                     return {
-                        title: 'List Title',
+                        title: 'Search users',
                         headerLeft: <IconMenu {...props} />
                     }
+                }
+            },
+            List: {
+                screen: List,
+                navigationOptions: {
+                    title: 'Users',
                 }
             },
             Profile: {
                 screen: Profile,
                 navigationOptions: {
-                    title: 'Profile Title',
+                    title: 'Profile',
                 },
             },
             Chat: {
                 screen: Chat,
                 navigationOptions: {
-                    title: 'Chat Title',
+                    title: 'Chat',
                 },
             }
         }),
         navigationOptions: {
-            drawerLabel: 'List Menu'
+            drawerLabel: 'Search'
         },
     },
     Messages: {
@@ -84,7 +92,7 @@ const SignedIn = DrawerNavigator({
                 screen: Messages,
                 navigationOptions: (props) => {
                     return {
-                        title: 'Messages Title',
+                        title: 'Messages',
                         headerLeft: <IconMenu {...props} />
                     }
                 }
@@ -92,13 +100,13 @@ const SignedIn = DrawerNavigator({
             Chat: {
                 screen: Chat,
                 navigationOptions: {
-                    title: 'Chat Title',
+                    title: 'Chat',
                 },
             }
         }),
         navigationOptions: {
-            title: 'Messages Title',
-            drawerLabel: 'Messages Menu'
+            title: 'Messages',
+            drawerLabel: 'Messages'
         },
     },
     'Sign out': {

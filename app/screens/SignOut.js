@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 
-import { onSignOut } from '../services/auth';
+import { signOut } from '../services/auth';
 
 class SignOut extends Component {
     componentWillMount() {
-        onSignOut().then(() => {
+        signOut().then(() => {
             this.props.navigation.navigate('SignedOut');
         })
     }
